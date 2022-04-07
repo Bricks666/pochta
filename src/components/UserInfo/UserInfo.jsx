@@ -1,26 +1,30 @@
-import { Spinner } from "react-bootstrap";
+import { Container, ListGroup, Spinner, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { roleMap } from "../../consts";
 import { useUser } from "../../hooks";
 
 export const UserInfo = () => {
 	const { info, isLoading } = useUser();
 	return (
-		<section>
+		<Container>
 			{isLoading ? (
 				<Spinner />
 			) : (
 				<>
 					<h3>Информация</h3>
-					<dl>
-						<dt>Имя</dt>
-						<dd>{info.name}</dd>
-						<dt>Роль</dt>
-						<dd>{roleMap[info.role]}</dd>
-						<dt>Адрес</dt>
-						<dd>{info.address}</dd>
-					</dl>
+					<ListGroup as="dl">
+						<ListGroup.Item as="dt">Имя</ListGroup.Item>
+						<ListGroup.Item as="dd">{info.name}</ListGroup.Item>
+						<ListGroup.Item as="dt">Роль</ListGroup.Item>
+						<ListGroup.Item as="dd">{roleMap[info.role]}</ListGroup.Item>
+						<ListGroup.Item as="dt">Адрес</ListGroup.Item>
+						<ListGroup.Item as="dd">{info.address}</ListGroup.Item>
+					</ListGroup>
+					<Button as={Link} to="change">
+						Изменить профиль
+					</Button>
 				</>
 			)}
-		</section>
+		</Container>
 	);
 };

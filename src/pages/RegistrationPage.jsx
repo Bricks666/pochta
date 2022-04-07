@@ -9,7 +9,7 @@ export const RegistrationPage = () => {
 			<Container>
 				<h2>Регистрация</h2>
 				<RegistrationForm />
-				<Link path={PATHS.login}>Вход</Link>
+				<Link to="login">Вход</Link>
 			</Container>
 		</main>
 	);

@@ -1,18 +1,18 @@
 import { mockServerResponse } from "../mocks/mockServerResponse";
 
 const mail = {
-	track: "",
-	sender: "",
-	receiver: "",
-	type: "",
+	track: "asdasdf",
+	sender: "adfasdf",
+	receiver: "asdfasdf",
+	type: "adfasdffasdf",
 	category: 3,
-	duration: 0,
-	coast: 0,
-	weight: 0,
-	declaredCoast: 0,
-	totalCoast: 0,
-	senderAddress: "",
-	receiverAddress: "",
+	duration: 10,
+	coast: 12,
+	weight: 1,
+	declaredCoast: 13,
+	totalCoast: 2,
+	senderAddress: "adfasdf",
+	receiverAddress: "adsfasdf",
 };
 
 export const SET_MAILS = "mails/SET_MAILS";
@@ -32,7 +32,7 @@ const initialState = {
  * @param {typeof initialState} state
  * @param {{type: string, payload: {}}} action
  */
-export const mailsReducer = (state, { type, payload }) => {
+export const mailsReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case SET_MAILS: {
 			return {
@@ -82,7 +82,7 @@ const resetMailsAC = () => {
 export const loadMailsThunk = () => {
 	return async (dispatch) => {
 		dispatch(toggleLoadingAC(true));
-		const response = await mockServerResponse([]);
+		const response = await mockServerResponse([mail]);
 		dispatch(setMailsAC(response));
 		dispatch(toggleLoadingAC(false));
 	};

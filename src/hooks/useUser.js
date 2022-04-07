@@ -1,20 +1,16 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { loadUserThunk, resetUserThunk } from "../models/user";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUserThunk } from "../models/user";
 
 export const useUser = () => {
 	const { info, isLoading } = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!isLoading && !info.name) {
-			loadUserThunk();
-			return () => {
-				if (info.name) {
-					resetUserThunk();
-				}
-			};
+		if (!info.name) {
+			dispatch(loadUserThunk());
 		}
-	}, [info.name, isLoading]);
+	}, [dispatch, info.name]);
 
 	return { info, isLoading };
 };

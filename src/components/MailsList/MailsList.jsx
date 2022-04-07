@@ -1,12 +1,14 @@
-import { ListGroup, Spinner } from "react-bootstrap";
-import { useMails } from "./useMails";
+import { Container, ListGroup, Spinner } from "react-bootstrap";
+import { useMails } from "../../hooks/useMails";
 import { MailCard } from "./MailCard";
 
 export const MailsList = () => {
 	const { isLoading, mails } = useMails();
+	console.log(mails, isLoading);
 
 	return (
-		<section>
+		<Container>
+			<h3>История</h3>
 			{isLoading ? (
 				<Spinner />
 			) : (
@@ -18,6 +20,6 @@ export const MailsList = () => {
 					))}
 				</ListGroup>
 			)}
-		</section>
+		</Container>
 	);
 };

@@ -64,7 +64,7 @@ const toggleLoadingAC = (isLoading) => {
 	};
 };
 
-const resetUserAC = () => {
+export const resetUserAC = () => {
 	return {
 		type: RESET,
 	};
@@ -77,16 +77,11 @@ const fakeProfile = {
 };
 
 export const loadUserThunk = () => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
+		const { address } = getState().auth;
 		dispatch(toggleLoadingAC(true));
 		const response = await mockServerResponse(fakeProfile);
 		dispatch(setUserAC(response));
 		dispatch(toggleLoadingAC(false));
-	};
-};
-
-export const resetUserThunk = () => {
-	return async (dispatch) => {
-		dispatch(resetUserAC());
 	};
 };

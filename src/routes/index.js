@@ -1,27 +1,38 @@
-import { LoginPage, MailsPage, ProfilePage, RegistrationPage } from "../pages";
-
-export const PATHS = {
-	login: "login",
-	registration: "registration",
-	profile: "profile",
-	mails: "mails",
-};
+import { Navigate } from "react-router-dom";
+import {
+	LoginPage,
+	MailsPage,
+	ProfilePage,
+	RegistrationPage,
+	TransfersPage,
+} from "../pages";
 
 export const routes = [
 	{
 		Component: LoginPage,
-		path: PATHS.login,
+		path: "login",
 	},
 	{
 		Component: RegistrationPage,
-		path: PATHS.registration,
+		path: "registration",
 	},
 	{
 		Component: ProfilePage,
-		path: PATHS.profile,
+		path: "profile/*",
+		isOnlyAuth: true,
 	},
 	{
 		Component: MailsPage,
-		path: PATHS.mails,
+		path: "mails/*",
+		isOnlyAuth: true,
+	},
+	{
+		Component: TransfersPage,
+		path: "transfers/*",
+		isOnlyAuth: true,
+	},
+	{
+		Component: () => <Navigate to="profile" />,
+		path: "*",
 	},
 ];

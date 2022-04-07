@@ -1,10 +1,19 @@
-import { mockServerResponse } from "../mocks";
+import {
+	acceptTransferApi,
+	cancelTransferApi,
+	getTransfersApi,
+	sendTransferApi,
+} from "../api";
+import { toValidTransfer } from "./utils/toValidTransfer";
 
 const transfer = {
+	id: 0,
 	sender: "",
 	receiver: "",
-	sum: 0,
+	value: 0,
 	lifeTime: "",
+	sendAt: "",
+	isFinish: false,
 };
 
 /**
@@ -63,10 +72,34 @@ const toggleLoadingAC = (isLoading) => {
 };
 
 export const loadTransfersThunk = () => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
+		const { address } = getState().auth;
 		dispatch(toggleLoadingAC(true));
-		const response = await mockServerResponse([]);
-		dispatch(setTransfersAC(response));
+		const response = await getTransfersApi(address);
+		dispatch(setTransfersAC(response.map(toValidTransfer)));
 		dispatch(toggleLoadingAC(false));
+	};
+};
+
+export const sendTransferThunk = (receiver, value, liveTime) => {
+	return async (_, getState) => {
+		const { address } = getState().auth;
+		await sendTransferApi(address, receiver, value, liveTime);
+	};
+};
+
+export const acceptTransferThunk = (id) => {
+	return async (_, getState) => {
+		const { address } = getState().auth;
+
+		await acceptTransferApi(address, id);
+	};
+};
+
+export const cancelTransferThunk = (id) => {
+	return async (_, getState) => {
+		const { address } = getState().auth;
+
+		await cancelTransferApi(address, id);
 	};
 };

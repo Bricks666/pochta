@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import { abi, address } from "../data";
 
-let web3 = null;
+export let web3 = null;
 export let contract = null;
 
 export const initCore = () => {
@@ -15,4 +15,8 @@ export const unlockAccount = async (address) => {
 
 export const lockAccount = async (address) => {
 	await web3.eth.personal.lockAccount(address);
+};
+
+export const subscribe = (event, filters, callback) => {
+	return contract.events[event];
 };

@@ -1,16 +1,19 @@
-import { mockServerResponse } from "../mocks/mockServerResponse";
+import { toggleAcceptMailApi, getUserApi, changeInfoApi } from "../api";
+import { toValidUser } from "./utils/toValidUser";
 
 /**
  * @type {{isLoading: boolean, info: typeof initialState}}
  */
 const initialState = {
 	isLoading: false,
-	info: { name: "", role: "", address: "" },
+	info: { name: "", role: 0, address: "", fio: "", acceptMail: false },
 };
 
-export const SET_USER = "user/SET_USER";
-export const TOGGLE_LOADING = "user/TOGGLE_LOADING";
-export const RESET = "user/RESET";
+const SET_USER = "user/SET_USER";
+const CHANGE_INFO = "user/CHANGE_INFO";
+const TOGGLE_ACCEPT_MAIl = "user/TOGGLE_ACCEPT_MAIl";
+const TOGGLE_LOADING = "user/TOGGLE_LOADING";
+const RESET = "user/RESET";
 
 /**
  *
@@ -30,6 +33,19 @@ export const userReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				isLoading: payload.isLoading,
+			};
+		}
+		case CHANGE_INFO: {
+			return {
+				...state,
+				address: payload.address,
+				fio: payload.fio,
+			};
+		}
+		case TOGGLE_ACCEPT_MAIl: {
+			return {
+				...state,
+				acceptMail: !state.acceptMail,
 			};
 		}
 		case RESET: {
@@ -55,6 +71,22 @@ const setUserAC = (user) => {
 	};
 };
 
+const changeInfoAC = (address, fio) => {
+	return {
+		type: CHANGE_INFO,
+		payload: {
+			address,
+			fio,
+		},
+	};
+};
+
+const toggleAcceptMailAC = () => {
+	return {
+		type: TOGGLE_ACCEPT_MAIl,
+	};
+};
+
 const toggleLoadingAC = (isLoading) => {
 	return {
 		type: TOGGLE_LOADING,
@@ -70,18 +102,30 @@ export const resetUserAC = () => {
 	};
 };
 
-const fakeProfile = {
-	name: "Fake",
-	role: "user",
-	address: "asdfasdfasdflkjasdbnabdflns 15",
-};
-
 export const loadUserThunk = () => {
 	return async (dispatch, getState) => {
 		const { address } = getState().auth;
 		dispatch(toggleLoadingAC(true));
-		const response = await mockServerResponse(fakeProfile);
-		dispatch(setUserAC(response));
+		const response = getUserApi(address);
+		dispatch(setUserAC(toValidUser(response)));
 		dispatch(toggleLoadingAC(false));
+	};
+};
+
+export const changeInfoThunk = (homeAddress, fio) => {
+	return async (dispatch, getState) => {
+		const { address } = getState().auth;
+		dispatch(toggleLoadingAC(true));
+		await changeInfoApi(address, homeAddress, fio);
+		dispatch(changeInfoAC(homeAddress, fio));
+		dispatch(toggleLoadingAC(false));
+	};
+};
+
+export const toggleAcceptMailThunk = () => {
+	return async (dispatch, getState) => {
+		const { address } = getState().auth;
+		await toggleAcceptMailApi(address);
+		dispatch(toggleAcceptMailAC());
 	};
 };

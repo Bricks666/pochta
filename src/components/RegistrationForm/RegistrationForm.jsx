@@ -25,7 +25,7 @@ export const RegistrationForm = () => {
 	return (
 		<Form onSubmit={onSubmit}>
 			{error && (
-				<Alert>
+				<Alert variant="danger">
 					<Alert.Heading>Ошибка регистрации</Alert.Heading>
 					{error}
 				</Alert>

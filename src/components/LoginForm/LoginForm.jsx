@@ -22,7 +22,7 @@ export const LoginForm = () => {
 	return (
 		<Form onSubmit={onSubmit}>
 			{error && (
-				<Alert>
+				<Alert variant="danger">
 					<Alert.Heading>Ошибка входа</Alert.Heading>
 					{error}
 				</Alert>

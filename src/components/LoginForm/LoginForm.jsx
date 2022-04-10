@@ -1,7 +1,7 @@
-import { Alert } from "bootstrap";
 import { useCallback } from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
+import { Button, Form, Spinner, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useField, useAddresses } from "../../hooks";
 import { loginThunk } from "../../models/auth";
 
@@ -10,14 +10,18 @@ export const LoginForm = () => {
 	const error = useSelector((state) => state.auth.loginError);
 	const isLoading = useSelector((state) => state.address.isLoading);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [login, setLogin, resetLogin] = useField(-1);
 	const onSubmit = useCallback(
-		(evt) => {
+		async (evt) => {
 			evt.preventDefault();
-			dispatch(loginThunk(login));
+			const isLogin = await dispatch(loginThunk(login));
 			resetLogin();
+			if (isLogin) {
+				navigate("/");
+			}
 		},
-		[login, dispatch, resetLogin]
+		[login, dispatch, resetLogin, navigate]
 	);
 	return (
 		<Form onSubmit={onSubmit}>
@@ -42,7 +46,7 @@ export const LoginForm = () => {
 					</Form.Select>
 				)}
 			</Form.Group>
-			<Button>Вход</Button>
+			<Button type="submit">Вход</Button>
 		</Form>
 	);
 };

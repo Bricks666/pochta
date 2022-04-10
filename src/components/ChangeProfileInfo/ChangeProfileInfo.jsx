@@ -1,16 +1,29 @@
+import { useCallback } from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useField, useUser } from "../../hooks";
+import { changeInfoThunk } from "../../models/user";
 
 export const ChangeProfileInfo = () => {
 	const { info } = useUser();
 	const [name, setName] = useField(info.name);
 	const [address, setAddress] = useField(info.address);
 
+	const dispatch = useDispatch();
+
+	const onSave = useCallback(
+		(evt) => {
+			evt.preventDefault();
+			dispatch(changeInfoThunk(address, name, true));
+		},
+		[dispatch, address, name]
+	);
+
 	return (
 		<Container>
 			<Link to={-1}>Назад</Link>
-			<Form>
+			<Form onSubmit={onSave}>
 				<Form.Group>
 					<Form.Label>Имя</Form.Label>
 					<Form.Control value={name} onChange={setName} placeholder="Имя" />

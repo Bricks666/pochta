@@ -6,9 +6,9 @@ export const useBalance = (address) => {
 
 	useEffect(() => {
 		const balance = async () => {
-			const balance = await web3.eth.getBalance(address);
+			const balance = address ? await web3.eth.getBalance(address) : 0;
 
-			setBalance(balance / 10 ** 18);
+			setBalance(balance);
 		};
 
 		const id = setInterval(() => balance(), 100);

@@ -1,7 +1,6 @@
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { RegistrationForm } from "../components/RegistrationForm";
-import { PATHS } from "../routes";
 
 export const RegistrationPage = () => {
 	return (
@@ -9,7 +8,7 @@ export const RegistrationPage = () => {
 			<Container>
 				<h2>Регистрация</h2>
 				<RegistrationForm />
-				<Link to="login">Вход</Link>
+				<Link to="/login">Вход</Link>
 			</Container>
 		</main>
 	);

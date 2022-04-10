@@ -1,14 +1,11 @@
 import { contract } from "./core";
 
 export const getUserApi = async (address) => {
-	return await contract.methods.User(address).call();
+	return await contract.methods.users(address).call();
 };
 
-export const changeInfoApi = async (address, homeAddress, fio) => {
-	await contract.methods.changeHomeAddress(homeAddress).send({ from: address });
-	await contract.methods.changeFIO(fio).send({ from: address });
-};
-
-export const toggleAcceptMailApi = async (address) => {
-	await contract.methods.againstAcceptMail().send({ from: address });
+export const changeInfoApi = async (address, homeAddress, fio, acceptMail) => {
+	await contract.methods
+		.changeUserInfo(homeAddress, fio, acceptMail)
+		.send({ from: address });
 };

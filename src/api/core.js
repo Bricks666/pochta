@@ -10,13 +10,17 @@ export const initCore = () => {
 };
 
 export const unlockAccount = async (address) => {
-	await web3.eth.personal.unlockAccount(address, "0000", "0");
+	await web3.eth.personal.unlockAccount(address, "0000", 0);
 };
 
 export const lockAccount = async (address) => {
 	await web3.eth.personal.lockAccount(address);
 };
 
-export const subscribe = (event, filters, callback) => {
-	return contract.events[event];
+export const subscribe = (event, callback, filter = {}) => {
+	return contract.events[event]({ filter }, (error, event) => {
+		if (!error) {
+			callback(event.returnValues);
+		}
+	});
 };

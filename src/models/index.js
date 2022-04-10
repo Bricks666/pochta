@@ -6,8 +6,10 @@ import { userReducer } from "./user";
 import { transfersReducer } from "./transfers";
 import { authReducer } from "./auth";
 import { addressReducer } from "./address";
+import { initReducer } from "./init";
 
 const rootReducer = combineReducers({
+	init: initReducer,
 	address: addressReducer,
 	auth: authReducer,
 	user: userReducer,

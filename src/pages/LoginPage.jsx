@@ -8,7 +8,7 @@ export const LoginPage = () => {
 			<Container>
 				<h2>Вход</h2>
 				<LoginForm />
-				<Link to="registration">Регистрация</Link>
+				<Link to="/registration">Регистрация</Link>
 			</Container>
 		</main>
 	);

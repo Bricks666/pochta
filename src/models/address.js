@@ -1,11 +1,15 @@
+import { getAddressesApi, getUsersApi } from "../api";
 import { mockServerResponse } from "../mocks/mockServerResponse";
+import { LOGOUT } from "./auth";
 
 const initialState = {
 	isLoading: false,
 	addresses: [],
+	users: [],
 };
 
 const SET_ADDRESS = "address/SET_ADDRESS";
+const SET_USERS = "address/SET_USERS";
 const TOGGLE_LOADING = "address/TOGGLE_ADDRESS";
 
 export const addressReducer = (state = initialState, { type, payload }) => {
@@ -21,6 +25,15 @@ export const addressReducer = (state = initialState, { type, payload }) => {
 				...state,
 				isLoading: payload.isLoading,
 			};
+		}
+		case SET_USERS: {
+			return {
+				...state,
+				users: payload.users,
+			};
+		}
+		case LOGOUT: {
+			return initialState;
 		}
 		default: {
 			return state;
@@ -46,11 +59,29 @@ const toggleLoadingAC = (isLoading) => {
 	};
 };
 
+const setUsersAC = (users) => {
+	return {
+		type: SET_USERS,
+		payload: {
+			users,
+		},
+	};
+};
+
 export const loadAddressesThunk = () => {
 	return async (dispatch) => {
 		dispatch(toggleLoadingAC(true));
-		const response = await mockServerResponse([]);
+		const response = await getAddressesApi();
 		dispatch(setAddressAC(response));
+		dispatch(toggleLoadingAC(false));
+	};
+};
+
+export const loadUsersThunk = () => {
+	return async (dispatch) => {
+		dispatch(toggleLoadingAC(true));
+		const response = await getUsersApi();
+		dispatch(setUsersAC(response));
 		dispatch(toggleLoadingAC(false));
 	};
 };

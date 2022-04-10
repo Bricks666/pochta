@@ -1,10 +1,11 @@
 import { Container, ListGroup, Spinner } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useMails } from "../../hooks/useMails";
 import { MailCard } from "./MailCard";
 
 export const MailsList = () => {
 	const { isLoading, mails } = useMails();
-	console.log(mails, isLoading);
+	const address = useSelector((state) => state.auth.address);
 
 	return (
 		<Container>
@@ -14,8 +15,12 @@ export const MailsList = () => {
 			) : (
 				<ListGroup as="div">
 					{mails.map((mail) => (
-						<ListGroup.Item key={mail.track}>
-							<MailCard {...mail} />
+						<ListGroup.Item key={mail.id}>
+							<MailCard
+								{...mail}
+								isReceiver={address === mail.receiver}
+								isSender={address === mail.sender}
+							/>
 						</ListGroup.Item>
 					))}
 				</ListGroup>

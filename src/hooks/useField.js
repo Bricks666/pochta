@@ -6,6 +6,8 @@ export const useField = (defaultValue = "") => {
 	return [
 		value,
 		useCallback((evt) => setValue(evt.target.value), []),
-		useCallback(() => setValue(""), []),
+		useCallback(() => {
+			setValue(defaultValue);
+		}, [defaultValue]),
 	];
 };

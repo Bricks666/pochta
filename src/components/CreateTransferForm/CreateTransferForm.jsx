@@ -1,17 +1,17 @@
 import { useCallback } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useAddresses, useBalance, useField } from "../../hooks";
+import { useUserAddresses, useBalance, useField } from "../../hooks";
 import { sendTransferThunk } from "../../models/transfers";
 
 export const CreateTransferForm = () => {
-	const addresses = useAddresses();
+	const addresses = useUserAddresses();
 	const address = useSelector((state) => state.auth.address);
 	const dispatch = useDispatch();
 	const balance = useBalance(address);
-	const [receiver, setReceiver, resetReceiver] = useField(-1);
+	const [receiver, setReceiver, resetReceiver] = useField(0);
 	const [value, setValue, resetValue] = useField(0);
-	const [liveTime, setLiveTime, resetLiveTime] = useField("");
+	const [liveTime, setLiveTime, resetLiveTime] = useField(0);
 	const onSubmit = useCallback(
 		(evt) => {
 			evt.preventDefault();
@@ -36,6 +36,7 @@ export const CreateTransferForm = () => {
 				<Form.Group>
 					<Form.Label>Получатель</Form.Label>
 					<Form.Select value={receiver} onChange={setReceiver}>
+            <option value={0}/>
 						{addresses.map((receiver) =>
 							address === receiver ? undefined : (
 								<option value={receiver} key={receiver}>
@@ -54,6 +55,7 @@ export const CreateTransferForm = () => {
 						max={balance}
 						step={0.1}
 						placeholder="Сумма"
+						type="number"
 					/>
 				</Form.Group>
 				<Form.Group>
@@ -61,10 +63,10 @@ export const CreateTransferForm = () => {
 					<Form.Control
 						value={liveTime}
 						onChange={setLiveTime}
-						placeholder=""
+						placeholder="Время жизни"
 					/>
 				</Form.Group>
-				<Button>Отправить</Button>
+				<Button type="submit">Отправить</Button>
 			</Form>
 		</Container>
 	);

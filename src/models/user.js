@@ -1,4 +1,5 @@
-import { toggleAcceptMailApi, getUserApi, changeInfoApi } from "../api";
+import { getUserApi, changeInfoApi } from "../api";
+import { subscribe } from "../api/core";
 import { toValidUser } from "./utils/toValidUser";
 
 /**
@@ -7,13 +8,13 @@ import { toValidUser } from "./utils/toValidUser";
 const initialState = {
 	isLoading: false,
 	info: { name: "", role: 0, address: "", fio: "", acceptMail: false },
+	unsubscribe: null,
 };
 
 const SET_USER = "user/SET_USER";
-const CHANGE_INFO = "user/CHANGE_INFO";
-const TOGGLE_ACCEPT_MAIl = "user/TOGGLE_ACCEPT_MAIl";
 const TOGGLE_LOADING = "user/TOGGLE_LOADING";
 const RESET = "user/RESET";
+const SET_UNSUBSCRIBE = "user/SET_UNSUBSCRIBE";
 
 /**
  *
@@ -35,20 +36,14 @@ export const userReducer = (state = initialState, { type, payload }) => {
 				isLoading: payload.isLoading,
 			};
 		}
-		case CHANGE_INFO: {
+		case SET_UNSUBSCRIBE: {
 			return {
 				...state,
-				address: payload.address,
-				fio: payload.fio,
-			};
-		}
-		case TOGGLE_ACCEPT_MAIl: {
-			return {
-				...state,
-				acceptMail: !state.acceptMail,
+				unsubscribe: payload.unsubscribe,
 			};
 		}
 		case RESET: {
+			state.unsubscribe.unsubscribe();
 			return initialState;
 		}
 		default: {
@@ -57,11 +52,6 @@ export const userReducer = (state = initialState, { type, payload }) => {
 	}
 };
 
-/**
- *
- * @param {typeof initialState} user
- * @returns
- */
 const setUserAC = (user) => {
 	return {
 		type: SET_USER,
@@ -71,27 +61,20 @@ const setUserAC = (user) => {
 	};
 };
 
-const changeInfoAC = (address, fio) => {
-	return {
-		type: CHANGE_INFO,
-		payload: {
-			address,
-			fio,
-		},
-	};
-};
-
-const toggleAcceptMailAC = () => {
-	return {
-		type: TOGGLE_ACCEPT_MAIl,
-	};
-};
-
 const toggleLoadingAC = (isLoading) => {
 	return {
 		type: TOGGLE_LOADING,
 		payload: {
 			isLoading,
+		},
+	};
+};
+
+const setUnsubscribeAC = (unsubscribe) => {
+	return {
+		type: SET_UNSUBSCRIBE,
+		payload: {
+			unsubscribe,
 		},
 	};
 };
@@ -106,26 +89,27 @@ export const loadUserThunk = () => {
 	return async (dispatch, getState) => {
 		const { address } = getState().auth;
 		dispatch(toggleLoadingAC(true));
-		const response = getUserApi(address);
+		const response = await getUserApi(address);
 		dispatch(setUserAC(toValidUser(response)));
 		dispatch(toggleLoadingAC(false));
 	};
 };
 
-export const changeInfoThunk = (homeAddress, fio) => {
-	return async (dispatch, getState) => {
+export const changeInfoThunk = (homeAddress, fio, acceptMail) => {
+	return async (_, getState) => {
 		const { address } = getState().auth;
-		dispatch(toggleLoadingAC(true));
-		await changeInfoApi(address, homeAddress, fio);
-		dispatch(changeInfoAC(homeAddress, fio));
-		dispatch(toggleLoadingAC(false));
+		await changeInfoApi(address, homeAddress, fio, acceptMail);
 	};
 };
 
-export const toggleAcceptMailThunk = () => {
+export const subscribeChangeIno = () => {
 	return async (dispatch, getState) => {
 		const { address } = getState().auth;
-		await toggleAcceptMailApi(address);
-		dispatch(toggleAcceptMailAC());
+		const unsubscribe = subscribe(
+			"changeInfo",
+			(user) => dispatch(setUserAC(toValidUser(user))),
+			{ user: address }
+		);
+		dispatch(setUnsubscribeAC(unsubscribe));
 	};
 };

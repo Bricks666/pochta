@@ -9,13 +9,13 @@ export const toValidMail = (mail) => {
 		receiver: personalData.receiver,
 		senderAddress: personalData.addressSender,
 		receiverAddress: personalData.addressReceiver,
-		packageType: packageType.typePackage,
-		packageClass: packageType.packageClass,
+		packageType: +packageType.typePackage,
+		packageClass: +packageType.packageClass,
 		weight: delivery.weight / 10 ** PRECISION,
 		deliveryPrice: delivery.deliveryPrice / 10 ** PRECISION,
-		valuePackage: delivery.valuePackage,
-		deliveryTime: delivery.deliveryTime,
+		valuePackage: +delivery.valuePackage,
+		deliveryTime: +delivery.deliveryTime,
 		allPrice: delivery.allPrice / 10 ** PRECISION,
-		status,
+		status: +status,
 	};
 };

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import {
@@ -25,6 +25,21 @@ export const TransferCard = ({
 		() => dispatch(cancelTransferThunk(id)),
 		[id, dispatch]
 	);
+
+	useEffect(() => {
+		if (!isFinish) {
+			const timeout = setInterval(() => {
+				console.log(sendAt + liveTime * 3 * 100, Date.now());
+				if (sendAt + liveTime * 3 * 1000 <= Date.now()) {
+					dispatch(cancelTransferThunk(id));
+					clearInterval(timeout);
+				}
+			}, 100);
+			return () => {
+				clearInterval(timeout);
+			};
+		}
+	}, [id, dispatch, isFinish, sendAt, liveTime]);
 	return (
 		<Card>
 			<Card.Header>
@@ -37,8 +52,8 @@ export const TransferCard = ({
 					Сумма перевода:
 					<b>{value}</b>
 				</Card.Text>
-				<Card.Text>Отправлено: {sendAt}</Card.Text>
-				<Card.Text>Срок жизни: {liveTime}</Card.Text>
+				<Card.Text>Отправлено: {new Date(sendAt).toLocaleString()}</Card.Text>
+				<Card.Text>Срок жизни: {liveTime} дней</Card.Text>
 			</Card.Body>
 			<Card.Footer>
 				{isFinish ? (

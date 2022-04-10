@@ -1,8 +1,15 @@
-export const roleMap = {
-	0: "Пользователь",
-	1: "Сотрудник почтового отделения",
-	2: "Администратор",
-	3: "Главный администратор",
+export const ROLES = {
+	USER: 0,
+	POSTMAN: 1,
+	ADMIN: 2,
+	MAIN_ADMIN: 3,
+};
+
+export const ROLE_NAME = {
+	[ROLES.USER]: "Пользователь",
+	[ROLES.POSTMAN]: "Сотрудник почтового отделения",
+	[ROLES.ADMIN]: "Администратор",
+	[ROLES.MAIN_ADMIN]: "Главный администратор",
 };
 
 export const PACKAGE_CLASS = {

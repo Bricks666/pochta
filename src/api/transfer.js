@@ -10,7 +10,7 @@ export const getTransfer = async (id) => {
 
 export const sendTransferApi = async (address, receiver, value, liveTime) => {
 	await contract.methods
-		.createTransfer(receiver, liveTime)
+		.createTransfer(receiver, liveTime, Date.now())
 		.send({ from: address, value: value * 10 ** 18 });
 };
 
@@ -19,5 +19,6 @@ export const acceptTransferApi = async (address, id) => {
 };
 
 export const cancelTransferApi = async (address, id) => {
+  debugger;
 	return await contract.methods.cancelTransfer(id).send({ from: address });
 };

@@ -11,7 +11,6 @@ import {
 export const MailButtons = ({ status, id, isReceiver, isSender, price }) => {
 	const dispatch = useDispatch();
 	const [isRequest, setIsRequest] = useState(false);
-
 	const onPay = useCallback(async () => {
 		setIsRequest(true);
 		await dispatch(payMailThunk(id, price));
@@ -31,6 +30,7 @@ export const MailButtons = ({ status, id, isReceiver, isSender, price }) => {
 	}, [dispatch, id]);
 
 	if (status === PACKAGE_STATUS.WAIT_FOR_PAY && isSender) {
+		console.log(status, id, isReceiver, isSender, price);
 		return (
 			<Button variant="primary" onClick={onPay} disabled={isRequest}>
 				Оплатить

@@ -7,7 +7,7 @@ import { changeInfoThunk } from "../../models/user";
 
 export const ChangeProfileInfo = () => {
 	const { info } = useUser();
-	const [name, setName] = useField(info.name);
+	const [name, setName] = useField(info.fio);
 	const [address, setAddress] = useField(info.address);
 
 	const dispatch = useDispatch();

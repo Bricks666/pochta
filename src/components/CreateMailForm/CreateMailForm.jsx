@@ -29,12 +29,12 @@ const calculateAllPrice = (deliveryPrice, weight, valuePackage) => {
 export const CreateMailForm = () => {
 	const dispatch = useDispatch();
 	const addresses = useUserAddresses();
-	const [sender, setSender] = useField(0);
-	const [receiver, setReceiver] = useField(0);
-	const [typePackage, setTypePackage] = useField(0);
-	const [packageClass, setPackageClass] = useField(2);
-	const [weight, setWeight] = useField(0);
-	const [valuePackage, setValuePackage] = useField(0);
+	const [sender, setSender, resetSender] = useField(0);
+	const [receiver, setReceiver, resetReceiver] = useField(0);
+	const [typePackage, setTypePackage, resetTypePackage] = useField(0);
+	const [packageClass, setPackageClass, resetPackageClass] = useField(2);
+	const [weight, setWeight, resetWeight] = useField(0);
+	const [valuePackage, setValuePackage, resetValuePackage] = useField(0);
 	const allPrice = calculateAllPrice(
 		deliveryPrice[packageClass],
 		weight,
@@ -42,9 +42,9 @@ export const CreateMailForm = () => {
 	);
 	const senderBalance = useBalance(sender);
 	const onSubmit = useCallback(
-		(evt) => {
+		async (evt) => {
 			evt.preventDefault();
-			dispatch(
+			await dispatch(
 				sendMailThunk({
 					sender,
 					receiver,
@@ -57,6 +57,12 @@ export const CreateMailForm = () => {
 					deliveryTime: deliveryTime[packageClass],
 				})
 			);
+			resetPackageClass();
+			resetReceiver();
+			resetSender();
+			resetTypePackage();
+			resetValuePackage();
+			resetWeight();
 		},
 		[
 			dispatch,

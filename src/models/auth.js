@@ -23,7 +23,7 @@ export const authReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case SET_AUTH: {
 			return {
-				state,
+				...state,
 				address: payload.address,
 				isAuth: true,
 			};
@@ -79,6 +79,12 @@ const setRegistrationErrorAC = (registrationError) => {
 		payload: {
 			registrationError,
 		},
+	};
+};
+
+export const logoutAC = () => {
+	return {
+		type: LOGOUT,
 	};
 };
 

@@ -1,7 +1,7 @@
 import { getUserApi, changeInfoApi } from "../api";
 import { subscribe } from "../api/core";
 import { toValidUser } from "./utils/toValidUser";
-
+import { LOGOUT } from "./auth";
 /**
  * @type {{isLoading: boolean, info: typeof initialState}}
  */
@@ -13,7 +13,6 @@ const initialState = {
 
 const SET_USER = "user/SET_USER";
 const TOGGLE_LOADING = "user/TOGGLE_LOADING";
-const RESET = "user/RESET";
 const SET_UNSUBSCRIBE = "user/SET_UNSUBSCRIBE";
 
 /**
@@ -42,8 +41,8 @@ export const userReducer = (state = initialState, { type, payload }) => {
 				unsubscribe: payload.unsubscribe,
 			};
 		}
-		case RESET: {
-			state.unsubscribe.unsubscribe();
+		case LOGOUT: {
+			state.unsubscribe?.unsubscribe();
 			return initialState;
 		}
 		default: {
@@ -76,12 +75,6 @@ const setUnsubscribeAC = (unsubscribe) => {
 		payload: {
 			unsubscribe,
 		},
-	};
-};
-
-export const resetUserAC = () => {
-	return {
-		type: RESET,
 	};
 };
 

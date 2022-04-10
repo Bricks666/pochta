@@ -33,6 +33,7 @@ const SET_UNSUBSCRIBES = "transfers/SET_UNSUBSCRIBES";
 const RESET = "transfers/RESET";
 
 const finishTransfer = (transfers, id) => {
+	console.log(transfers, id);
 	return transfers.map((transfer) =>
 		transfer.id == id ? { ...transfer, isFinish: true } : transfer
 	);
@@ -53,10 +54,10 @@ export const transfersReducer = (state = initialState, { type, payload }) => {
 			};
 		}
 		case ADD_TRANSFER: {
-			const { type, transfer } = payload;
+			const { transfer } = payload;
 			return {
 				...state,
-				[type]: [...state[type], transfer],
+				transfers: [...state.transfers, transfer],
 			};
 		}
 		case TOGGLE_LOADING: {
@@ -117,6 +118,7 @@ const setUnsubscribesAC = (...unsubscribes) => {
 };
 
 const finishTransferAC = (transferId) => {
+	console.log(transferId);
 	return {
 		type: FINISH_TRANSFER,
 		payload: {
@@ -183,6 +185,7 @@ export const subscribeNewTransferThunk = () => {
 			"newTransfer",
 			async ({ id }) => {
 				const transfer = await getTransfer(id);
+				console.log("SEND");
 				dispatch(addTransferAC(toValidTransfer(transfer)));
 			},
 			{
@@ -193,6 +196,7 @@ export const subscribeNewTransferThunk = () => {
 			"newTransfer",
 			async ({ id }) => {
 				const transfer = await getTransfer(id);
+				console.log("RECEIVE");
 				dispatch(addTransferAC(toValidTransfer(transfer)));
 			},
 			{

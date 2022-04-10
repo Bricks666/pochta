@@ -1,6 +1,10 @@
-import { Card, Col } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { PACKAGE_STATUS_NAME } from "../../../consts";
+import {
+	PACKAGE_CLASS_NAME,
+	PACKAGE_STATUS_NAME,
+	PACKAGE_TYPE_NAME,
+} from "../../../consts";
 import { MailButtons } from "../../MailButtons/MailButtons";
 
 export const MailCard = ({
@@ -24,31 +28,43 @@ export const MailCard = ({
 				</Card.Title>
 			</Card.Header>
 			<Card.Body>
-				<Col>
-					<Card.Text>Отправитель: {sender}</Card.Text>
-					<Card.Text>Тип отправления: {packageType}</Card.Text>
-					<Card.Text>Вес: {weight}</Card.Text>
-					<Card.Text>Статус: {PACKAGE_STATUS_NAME[status]}</Card.Text>
-				</Col>
-				<Col>
-					<Card.Text>Получатель: {receiver}</Card.Text>
-					<Card.Text>Класс отправления: {packageClass}</Card.Text>
-					<Card.Text>
-						Итоговая стоимость: <b>{allPrice}</b>
-					</Card.Text>
-				</Col>
+				<Row>
+					<Col>
+						<Card.Text>Отправитель: {sender}</Card.Text>
+						<Card.Text>
+							Тип отправления: {PACKAGE_TYPE_NAME[packageType]}
+						</Card.Text>
+						<Card.Text>Вес: {weight}</Card.Text>
+						<Card.Text>Статус: {PACKAGE_STATUS_NAME[status]}</Card.Text>
+					</Col>
+					<Col>
+						<Card.Text>Получатель: {receiver}</Card.Text>
+						<Card.Text>
+							Класс отправления: {PACKAGE_CLASS_NAME[packageClass]}
+						</Card.Text>
+						<Card.Text>
+							Итоговая стоимость: <b>{allPrice}</b>
+						</Card.Text>
+					</Col>
+				</Row>
 			</Card.Body>
 			<Card.Footer>
-				<Card.Link as={Link} to={track}>
-					Подробнее
-				</Card.Link>
-				<MailButtons
-					isSender={isSender}
-					isReceiver={isReceiver}
-					id={id}
-					status={status}
-					price={allPrice}
-				/>
+				<Row>
+					<Col>
+						<Card.Link as={Link} to={track}>
+							Подробнее
+						</Card.Link>
+					</Col>
+					<Col>
+						<MailButtons
+							isSender={isSender}
+							isReceiver={isReceiver}
+							id={id}
+							status={status}
+							price={allPrice}
+						/>
+					</Col>
+				</Row>
 			</Card.Footer>
 		</Card>
 	);

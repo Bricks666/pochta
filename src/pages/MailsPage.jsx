@@ -4,6 +4,7 @@ import { MailsList } from "../components/MailsList";
 import { Mail } from "../components/Mail";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { CreateMail } from "../components/CreateMail";
 import { resetMailsAC } from "../models/mails";
 
 export const MailsPage = () => {
@@ -19,7 +20,8 @@ export const MailsPage = () => {
 			<Container>
 				<h2>Отправления</h2>
 				<Routes>
-					<Route path="*" element={<MailsList />} />
+					<Route path="all" element={<MailsList />} />
+					<Route path="add" element={<CreateMail />} />
 					<Route path=":track" element={<Mail />} />
 				</Routes>
 			</Container>

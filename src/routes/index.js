@@ -6,6 +6,7 @@ import {
 	RegistrationPage,
 	TransfersPage,
 } from "../pages";
+import { UsersPage } from "../pages/UsersPage";
 
 export const routes = [
 	{
@@ -29,6 +30,11 @@ export const routes = [
 	{
 		Component: TransfersPage,
 		path: "transfers/*",
+		isOnlyAuth: true,
+	},
+	{
+		Component: UsersPage,
+		path: "users/*",
 		isOnlyAuth: true,
 	},
 	{

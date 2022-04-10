@@ -1,5 +1,4 @@
-import { getAddressesApi, getUsersApi } from "../api";
-import { mockServerResponse } from "../mocks/mockServerResponse";
+import { getAddressesApi, getUsersAddressesApi } from "../api";
 import { LOGOUT } from "./auth";
 
 const initialState = {
@@ -80,7 +79,7 @@ export const loadAddressesThunk = () => {
 export const loadUsersThunk = () => {
 	return async (dispatch) => {
 		dispatch(toggleLoadingAC(true));
-		const response = await getUsersApi();
+		const response = await getUsersAddressesApi();
 		dispatch(setUsersAC(response));
 		dispatch(toggleLoadingAC(false));
 	};

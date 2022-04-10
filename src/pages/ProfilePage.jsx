@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
-import { UserInfo } from "../components/UserInfo";
+import { ProfileInfo } from "../components/ProfileInfo";
 import { ChangeProfileInfo } from "../components/ChangeProfileInfo";
 
 export const ProfilePage = () => {
@@ -10,7 +10,7 @@ export const ProfilePage = () => {
 				<h2>Профиль</h2>
 				<Routes>
 					<Route path="change" element={<ChangeProfileInfo />} />
-					<Route path="*" element={<UserInfo />} />
+					<Route path="*" element={<ProfileInfo />} />
 				</Routes>
 			</Container>
 		</main>

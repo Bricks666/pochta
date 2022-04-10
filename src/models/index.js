@@ -7,6 +7,7 @@ import { transfersReducer } from "./transfers";
 import { authReducer } from "./auth";
 import { addressReducer } from "./address";
 import { initReducer } from "./init";
+import { usersReducer } from "./users";
 
 const rootReducer = combineReducers({
 	init: initReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
 	user: userReducer,
 	mails: mailsReducer,
 	transfers: transfersReducer,
+	users: usersReducer,
 });
 
 export const store = createStore(

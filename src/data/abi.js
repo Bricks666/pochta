@@ -1,5 +1,10 @@
 export const abi = [
 	{
+		inputs: [],
+		stateMutability: "nonpayable",
+		type: "constructor",
+	},
+	{
 		anonymous: false,
 		inputs: [
 			{
@@ -116,6 +121,19 @@ export const abi = [
 			},
 		],
 		name: "newTransfer",
+		type: "event",
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: false,
+				internalType: "address",
+				name: "user",
+				type: "address",
+			},
+		],
+		name: "newUser",
 		type: "event",
 	},
 	{
@@ -253,6 +271,25 @@ export const abi = [
 		inputs: [
 			{
 				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		name: "admins",
+		outputs: [
+			{
+				internalType: "address",
+				name: "",
+				type: "address",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "uint256",
 				name: "id",
 				type: "uint256",
 			},
@@ -350,61 +387,6 @@ export const abi = [
 		name: "delPostman",
 		outputs: [],
 		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "uint256",
-				name: "id",
-				type: "uint256",
-			},
-		],
-		name: "payPackage",
-		outputs: [],
-		stateMutability: "payable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "string",
-				name: "homeAddress",
-				type: "string",
-			},
-			{
-				internalType: "string",
-				name: "FIO",
-				type: "string",
-			},
-		],
-		name: "registration",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [],
-		stateMutability: "nonpayable",
-		type: "constructor",
-	},
-	{
-		inputs: [
-			{
-				internalType: "uint256",
-				name: "",
-				type: "uint256",
-			},
-		],
-		name: "admins",
-		outputs: [
-			{
-				internalType: "address",
-				name: "",
-				type: "address",
-			},
-		],
-		stateMutability: "view",
 		type: "function",
 	},
 	{
@@ -743,6 +725,37 @@ export const abi = [
 			},
 		],
 		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "uint256",
+				name: "id",
+				type: "uint256",
+			},
+		],
+		name: "payPackage",
+		outputs: [],
+		stateMutability: "payable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "string",
+				name: "homeAddress",
+				type: "string",
+			},
+			{
+				internalType: "string",
+				name: "FIO",
+				type: "string",
+			},
+		],
+		name: "registration",
+		outputs: [],
+		stateMutability: "nonpayable",
 		type: "function",
 	},
 	{
